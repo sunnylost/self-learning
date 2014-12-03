@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pointer Events</title>
+    <style type="text/css" media="screen">
+        #div {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            text-align: center;
+            color: #fff;
+            background-color: #01ba01;
+            pointer-events: none;
+        }    
+
+        a {
+            display: block;
+            margin-top: 20px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="div">
+        Click Me
+    </div>
+    <a href="http://www.google.com">Google</a>
+    <script type="text/javascript">
+        div.onclick = function() {
+            alert('click');
+        };
+
+        div.onmouseover = function() {
+            this.innerHTML = 'mouse over';
+        };
+    </script>
+</body>
+</html>
