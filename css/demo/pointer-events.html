@@ -14,6 +14,10 @@
             pointer-events: none;
         }    
 
+        #inner {
+            pointer-events: auto;
+        }
+
         a {
             display: block;
             margin-top: 20px;
@@ -23,16 +27,16 @@
 </head>
 <body>
     <div id="div">
-        Click Me
+        <span id="inner">Click Me</span>
     </div>
     <a href="http://www.google.com">Google</a>
     <script type="text/javascript">
-        div.onclick = function() {
-            alert('click');
-        };
-
-        div.onmouseover = function() {
-            this.innerHTML = 'mouse over';
+        div.onclick = function(e) {
+            if(e.target.tagName.toLowerCase() == 'span') {
+                alert('Click on span!');
+            } else {
+                alert('You will never see ME!');    
+            }
         };
     </script>
 </body>
