@@ -13,14 +13,14 @@
 V8 没有解释器(interpreter)，而是有两个不同的编译器：通用编译器(generic)与优化编译器(optimizing)。这意味着你的 JavaScript 始终会被编译成本地代码(native code)来运行，但是`没有经过优化`的本地代码并不会显著提升性能。
 
 例如，`a + b` 在通用编译器中会被编译成：
-```
+```nasm
 mov eax, a
 mov ebx, b
 call RuntimeAdd
 ```
 
 如果 `a` 与 `b` 始终是数字，在优化编译器中就是：
-```
+```nasm
 mov eax, a
 mov ebx, b
 add eax, ebx
@@ -37,7 +37,8 @@ add eax, ebx
 用 node.js 加上一些 V8 参数就能够检测哪些代码影响优化。通常的做法是，写一个函数来包含这些代码，执行，再利用 V8 的内部函数对它进行优化，比对结果。
 
 test.js:
-```
+
+```javascript
 //Function that contains the pattern to be inspected (using with statement)
 function containsWith() {
     return 3;
@@ -85,7 +86,7 @@ Function is optimized
 注意：只要存在这样的结构就会导致函数不被优化，不管它们能否被执行。
 
 例如：
-```
+```javascript
 if (DEVELOPMENT) {
     debugger;
 }
@@ -108,13 +109,13 @@ if (DEVELOPMENT) {
 
 以下的代码会让整个函数不被优化：
 
-```
+```javascript
 function containsObjectLiteralWithProto() {
     return {__proto__: 3};
 }
 ```
 
-```
+```javascript
 function containsObjectLiteralWithGetter() {
     return {
         get prop() {
@@ -124,7 +125,7 @@ function containsObjectLiteralWithGetter() {
 }
 ```
 
-```
+```javascript
 function containsObjectLiteralWithSetter() {
     return {
         set prop(val) {
@@ -138,7 +139,7 @@ function containsObjectLiteralWithSetter() {
 
 有些时候很难避免不写 `try catch` 或 `try finally`，为了减少这些代码造成的影响，需要将它们从主要代码中隔离出去：
 
-```
+```javascript
 var errorObject = {value: null};
 function tryCatch(fn, ctx, args) {
     try {
@@ -166,7 +167,7 @@ else {
 
 #### 3.1 在函数体中使用 `arguments`，并为已经定义的参数重新赋值：
 
-```
+```javascript
 function defaultArgsReassign(a, b) {
      if (arguments.length < 2) b = 5;
 }
@@ -174,7 +175,7 @@ function defaultArgsReassign(a, b) {
 
 ##### 解决办法：用新的变量来保存参数
 
-```
+```javascript
 function reAssignParam(a, b_) {
     var b = b_;
     //与 b_ 不同，b 可以被安全的重新赋值
@@ -183,7 +184,7 @@ function reAssignParam(a, b_) {
 ```
 如果使用 `arguments` 只是用来确保 `b` 是否存在，可以直接和 `undefined` 做比较
 
-```
+```javascript
 function reAssignParam(a, b) {
     if (b === void 0) b = 5;
 }
@@ -191,19 +192,19 @@ function reAssignParam(a, b) {
 
 #### 3.2 参数泄露
 
-```
+```javascript
 function leaksArguments1() {
     return arguments;
 }
 ```
 
-```
+```javascript
 function leaksArguments2() {
     var args = [].slice.call(arguments);
 }
 ```
 
-```
+```javascript
 function leaksArguments3() {
     var a = arguments;
     return function() {
@@ -216,7 +217,7 @@ function leaksArguments3() {
 
 ##### 解决办法：
 
-```
+```javascript
 function doesntLeakArguments() {
     //.length 只是个整数，不会泄露整个 arguments 对象
     var args = new Array(arguments.length);
@@ -232,7 +233,7 @@ function doesntLeakArguments() {
 
 非严格模式下，可以这么操作：
 
-```
+```javascript
 function assignToArguments() {
     arguments = 3;
     return arguments;
@@ -253,7 +254,7 @@ function assignToArguments() {
 
 `case` 不要超过 128 个：
 
-```
+```javascript
 function over128Cases(c) {
     switch(c) {
         case 1: break;
@@ -270,7 +271,7 @@ function over128Cases(c) {
 
 #### 5.1 key 不是局部变量
 
-```
+```javascript
 function nonLocalKey1() {
     var obj = {}
     for(var key in obj);
@@ -280,7 +281,7 @@ function nonLocalKey1() {
 }
 ```
 
-```
+```javascript
 var key;
 function nonLocalKey2() {
     var obj = {}
@@ -296,7 +297,7 @@ function nonLocalKey2() {
 
 “hash table mode” 也称为“normalized objects(规范化的对象)”，“dictionary mode(字典模式)”，即以哈希表作为底层数据结构的对象。
 
-```
+```javascript
 function hashTableIteration() {
     var hashTable = {"-": 3};
     for(var key in hashTable);
@@ -309,7 +310,7 @@ function hashTableIteration() {
 
 ##### 5.2.2 对象的原型链上有可遍历属性
 
-```
+```javascript
 Object.prototype.fn = function() {};
 ```
 
@@ -325,11 +326,11 @@ Object.prototype.fn = function() {};
 
 普通对象也可以拥有数组下标：
 
-```
+```javascript
 normalObj[0] = value;
 ```
 
-```
+```javascript
 function iteratesOverArray() {
     var arr = [1, 2, 3];
     for (var index in arr) {
@@ -342,7 +343,7 @@ function iteratesOverArray() {
 
 ##### 解决办法：循环对象使用 `Object.keys`，循环数组用 `for`。如果必须要获取整个原型链上的属性，使用单独的工具方法：
 
-```
+```javascript
 function inheritedKeys(obj) {
     var ret = [];
     for(var key in obj) {
