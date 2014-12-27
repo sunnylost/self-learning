@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linear Vertical motion</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				centerY = canvas.height / 2,
+				angle   = 0,
+				range   = 50,
+				xspeed  = 1,
+				yspeed  = .05,
+				xpos    = 0,
+				ypos    = centerY
+
+			context.lineWidth = 2
+			;(function drawFrame() {
+				context.beginPath()
+				context.moveTo( xpos, ypos )
+				xpos  += xspeed
+				angle += yspeed
+				ypos = centerY + Math.sin( angle ) * range
+				context.lineTo( xpos, ypos )
+				context.stroke()
+
+				if ( xpos < canvas.width ) {
+					requestAnimationFrame( drawFrame )
+				}
+			}())
+		}())
+	</script>
+</body>
+</html>

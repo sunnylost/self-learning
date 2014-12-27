@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script type="text/javascript">
+		function Arrow() {
+			this.x = 0
+			this.y = 0
+			this.color = '#ff0'
+			this.rotation = 0
+		}
+
+		Arrow.prototype.draw = function( context ) {
+			context.save()
+			context.translate( this.x, this.y )
+			context.rotate( this.rotation )
+			context.lineWidth = 2
+			context.fillStyle = this.color
+			context.beginPath()
+			context.moveTo( -50, -25 )
+			context.lineTo( 0, -25 )
+			context.lineTo( 0, -50 )
+			context.lineTo( 50, 0 )
+			context.lineTo( 0, 50 )
+			context.lineTo( 0, 25 )
+			context.lineTo( -50, 25 )
+			context.lineTo( -50, -25 )
+			context.closePath()
+			context.fill()
+			context.stroke()
+			context.restore()
+		}
+
+		;(function() {
+			var mouseX  = 0, 
+				mouseY  = 0,
+				canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				arrow   = new Arrow
+
+			arrow.x = canvas.width / 2
+			arrow.y = canvas.height / 2
+
+			;(function drawFrame() {
+				var dx, dy
+
+				dx = mouseX - arrow.x
+				dy = mouseY - arrow.y
+
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+
+				arrow.rotation = Math.atan2( dy, dx )
+				arrow.draw( context )
+
+				requestAnimationFrame( drawFrame )
+			}())
+
+			canvas.addEventListener( 'mousemove', function( e ) {
+				mouseX = e.x
+				mouseY = e.y
+			})
+		}())
+	</script>
+</body>
+</html>
