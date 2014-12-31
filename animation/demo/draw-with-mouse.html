@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Draw with mouse</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script src="ball.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				isDown  = false
+
+			context.strokeStyle = 'blue'
+			context.lineWidth = 5
+
+			canvas.addEventListener( 'mousedown', function( e ) {
+				context.beginPath()
+				context.moveTo( e.x, e.y )
+				isDown = true
+			})
+
+			canvas.addEventListener( 'mousemove', function( e ) {
+				if ( isDown ) {
+					context.lineTo( e.x, e.y )
+					context.stroke()
+				}
+			})
+
+			canvas.addEventListener( 'mouseup', function( e ) {
+				isDown = false
+			})
+
+			canvas.addEventListener( 'mouseover', function() {
+				isDown = false
+			})
+		}())
+	</script>
+</body>
+</html>

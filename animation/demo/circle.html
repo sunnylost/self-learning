@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Circle</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				centerX = canvas.width / 2,
+				centerY = canvas.height / 2,
+				angle   = 0,
+				range   = 100,
+				speed   = .05,
+				xpos    = centerX + range,
+				ypos    = centerY
+
+			context.lineWidth   = 2
+			context.strokeStyle = 'rgb(43, 161, 30)'
+
+			;(function drawFrame() {
+				context.beginPath()
+				context.moveTo( xpos, ypos )
+				angle += speed
+				xpos = centerX + Math.cos( angle ) * range
+				ypos = centerY + Math.sin( angle ) * range
+				context.lineTo( xpos, ypos )
+				context.stroke()
+
+				if ( angle < 2 * Math.PI ) {
+					requestAnimationFrame( drawFrame )
+				}
+			}())
+		}())
+	</script>
+</body>
+</html>

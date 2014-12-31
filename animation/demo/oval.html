@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Linear Vertical motion</title>
+	<title>Oval</title>
 </head>
 <body>
 	<canvas id="canvas" width="400" height="400">
@@ -13,24 +13,20 @@
 		;(function() {
 			var canvas  = document.getElementById( 'canvas' ),
 				context = canvas.getContext( '2d' ),
-				radius  = 40,
-				ball    = new Ball( radius ),
-				angle   = 0,
+				ball    = new Ball,
+				centerX = canvas.width / 2,
 				centerY = canvas.height / 2,
-				range   = .5,
-				speed   = .1,
-				centerScale = 1
-
-			ball.x = canvas.width / 2
-			ball.y = canvas.height / 2
+				angle   = 0,
+				radiusX = 150,
+				radiusY = 100,
+				speed   = .05
 
 			;(function drawFrame() {
 				context.clearRect( 0, 0, canvas.width, canvas.height )
-
-				ball.scaleX = ball.scaleY = centerScale = Math.sin( angle ) * range
-				angle  += speed
+				ball.x = centerX + Math.sin( angle ) * radiusX
+				ball.y = centerY + Math.cos( angle ) * radiusY
+				angle += speed
 				ball.draw( context )
-
 				requestAnimationFrame( drawFrame )
 			}())
 		}())
