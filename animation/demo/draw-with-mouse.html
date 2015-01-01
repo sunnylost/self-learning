@@ -26,7 +26,8 @@
 
 			canvas.addEventListener( 'mousemove', function( e ) {
 				if ( isDown ) {
-					context.lineTo( e.x, e.y )
+					//context.lineTo( e.x, e.y )
+					context.quadraticCurveTo( e.x, e.y, 5, 100 )
 					context.stroke()
 				}
 			})

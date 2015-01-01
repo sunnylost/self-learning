@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multi curve</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script src="ball.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				points  = [],
+				numPoints  = 9,
+				ctrlPoint  = {},
+				ctrlPoint1 = {}
+
+			for ( var i = 0; i < numPoints; i++ ) {
+				points.push({
+					x: Math.random() * canvas.width,
+					y: Math.random() * canvas.height
+				})
+			}
+
+			ctrlPoint1.x = ( points[ 0 ].x + points[ numPoints - 1 ].x ) / 2
+			ctrlPoint1.y = ( points[ 0 ].y + points[ numPoints - 1 ].y ) / 2
+
+			context.beginPath()
+			context.moveTo( ctrlPoint1.x, ctrlPoint1.y )
+
+			for ( i = 0; i < numPoints - 1; i++ ) {
+				ctrlPoint.x = ( points[ i ].x + points[ i + 1 ].x ) / 2
+				ctrlPoint.y = ( points[ i ].y + points[ i + 1 ].y ) / 2
+				context.quadraticCurveTo( points[ i ].x, points[ i ].y, ctrlPoint.x, ctrlPoint.y )
+			}
+
+			context.quadraticCurveTo( points[ i ].x, points[ i ].y, ctrlPoint1.x, ctrlPoint1.y )
+			context.stroke()
+		}())
+	</script>
+</body>
+</html>

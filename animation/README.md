@@ -69,3 +69,31 @@ ctx.moveTo( 0, 0 )
 ctx.lineTo( 100, 100 )
 ctx.stroke()
 ```
+
+## 曲线
+
+`ctx.quadraticCurveTo( cpx, cpy, x, y )` 需要两个点做参数，第一个点是控制点，控制曲线形状，第二点是终点。曲线形状根据贝塞尔曲线公式计算。
+
+除此之外还有 `bezierCurveTo( cp1x, cp1y, cp2x, cp2y, x, y )`、`arcTo( cp1x, cp1y, cp2x, cp2y, radius )`、`arc( x, y, radius, startAngle, endAngle[, antiClockwise] )` 等方法绘制曲线。
+
+## 操作像素
+
+获取像素数据：
+
+```javascript
+var imagedata = ctxt.getImageData( x, y, width, height )
+```
+
+创建空白的 `ImageData` 对象：
+
+```javascript
+var imagedata = ctxt.createImageData( width, height )
+```
+
+`ImageData` 的 `data` 属性是个一维数组，按照 RGBA 的顺序保存了所有像素的信息。
+
+在画布上绘制 `ImageData`，其中，`x` 和 `y` 是绘制区域的左上角：
+
+```javascript
+ctx.putImageData( imageData, x, y )
+```
