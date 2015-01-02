@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Velocity 1</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script type="text/javascript" src="ball.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				ball    = new Ball,
+				angle   = 45,
+				speed   = 1
+
+			ball.x = 50
+			ball.y = 100
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+
+				var radians = angle * Math.PI / 180
+				ball.x += Math.cos( radians ) * speed
+				ball.y += Math.sin( radians ) * speed
+				ball.draw( context )
+
+				requestAnimationFrame( drawFrame )
+			}())
+		}())
+	</script>
+</body>
+</html>

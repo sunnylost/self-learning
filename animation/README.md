@@ -97,3 +97,14 @@ var imagedata = ctxt.createImageData( width, height )
 ```javascript
 ctx.putImageData( imageData, x, y )
 ```
+
+## Velocity(速率)与 Acceleration(加速度)
+
+velocity 不同于 speed，因为它还包含了 direction(方向)，因此它的完整定义为：某个方向上的速度。
+
+acceleration 与 velocity 类似，同样是向量，但它改变的不是 speed，而是 velocity。
+
+将角速度转换为 x, y 速度向量：
+
+* `vx = speed * Math.cos( angle )`
+* `vy = speed * Math.sin( angle )`

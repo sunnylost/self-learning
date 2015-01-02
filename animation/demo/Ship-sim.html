@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ship Sim</title>
+	<style type="text/css">
+		#canvas {
+			background-color: #000;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="1000" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="ship.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				ship    = new Ship,
+				vr      = 0,
+				vx      = 0,
+				vy      = 0,
+				thrust  = 0
+
+			ship.x = canvas.width / 2
+			ship.y = canvas.height / 2
+
+			window.addEventListener( 'keydown', function( e ) {
+				switch( e.keyCode ) {
+				case 37:
+					vr = -3
+					break;
+				case 39:
+					vr = 3
+					break
+				case 38:
+					thrust = .05
+					ship.showFlame = true
+					break
+				}
+			})
+
+			window.addEventListener( 'keyup', function( e ) {
+				vr     = 0
+				thrust = 0
+				ship.showFlame = false
+			})
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+
+				ship.rotation += vr * Math.PI / 180
+				var angle = ship.rotation,
+					ax    = Math.cos( angle ) * thrust,
+					ay    = Math.sin( angle ) * thrust
+
+				vx += ax
+				vy += ay
+				ship.x += vx
+				ship.y += vy
+				ship.draw( context )
+				requestAnimationFrame( drawFrame )
+			}())
+		}())
+	</script>
+</body>
+</html>

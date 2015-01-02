@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Acceleration</title>
+</head>
+<body>
+	<canvas id="canvas" width="1000" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<div>Speed: <i id="speed-num"></i></div>
+	<script type="text/javascript" src="ball.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  = document.getElementById( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+				ball    = new Ball,
+				vx      = 0,
+				ax      = .1,
+				speedNum = document.getElementById( 'speed-num' )
+
+			ball.x = canvas.width / 2
+			ball.y = canvas.height / 2
+
+			window.addEventListener( 'keydown', function( e ) {
+				if ( e.keyCode == 37 ) {
+					ax -= .1
+				} else if ( e.keyCode == 39 ) {
+					ax += .1
+				}
+			})
+
+			window.addEventListener( 'keyup', function( e ) {
+				ax = 0
+			})
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+
+				vx += ax
+				ball.x += vx
+				ball.draw( context )
+
+				if ( ball.x >= canvas.width ) {
+					ball.x = 0
+				} else if ( ball.x < 0 ) {
+					ball.x = 0
+				}
+
+				speedNum.innerText = vx.toFixed( 2 )
+
+				requestAnimationFrame( drawFrame )
+			}())
+		}())
+	</script>
+</body>
+</html>
