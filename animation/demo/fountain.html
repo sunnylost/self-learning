@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fountain</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+
+	<script type="text/javascript" src="ball.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas   = document.getElementById( 'canvas' ),
+				context  = canvas.getContext( '2d' ),
+				balls    = [],
+				numBalls = 120,
+				gravity  = .5,
+				ball
+
+			for ( var i = 0; i < numBalls; i++ ) {
+				ball    = new Ball( 2, Math.random() * 0xffffff )
+				ball.x  = canvas.width / 2
+				ball.y  = canvas.height
+				ball.vx = Math.random() * -2 + 1
+				ball.vy = Math.random() * -10 -10
+				balls.push( ball )
+			}
+
+			function draw( ball ) {
+				ball.vy += gravity
+				ball.x  += ball.vx
+				ball.y  += ball.vy
+				if ( ball.x - ball.radius > canvas.width ||
+					 ball.x + ball.radius < 0 ||
+					 ball.y - ball.radius > canvas.height ||
+					 ball.y + ball.radius < 0 ) {
+
+					ball.x  = canvas.width / 2
+					ball.y  = canvas.height
+					ball.vx = Math.random() * -2 + 1
+					ball.vy = Math.random() * -10 - 10
+				}
+				ball.draw(  context )
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				balls.forEach( draw )
+				requestAnimationFrame( drawFrame )
+			}())
+		}())
+	</script>
+</body>
+</html>
