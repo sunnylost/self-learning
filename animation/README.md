@@ -108,3 +108,24 @@ acceleration 与 velocity 类似，同样是向量，但它改变的不是 speed
 
 * `vx = speed * Math.cos( angle )`
 * `vy = speed * Math.sin( angle )`
+
+## friction(摩擦力)
+
+与速度向量相反
+
+```javascript
+speed = Math.sqrt( vx * vx + vy * vy )
+angle = Math.atan2( vy, vx )
+if ( speed > friction ) {
+    speed -= friction
+} else {
+    speed = 0
+}
+```
+
+计算摩擦力的简便方法：
+
+```javascript
+vx *= friction
+vy *= friction
+```

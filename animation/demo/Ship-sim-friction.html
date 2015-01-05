@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ship Sim</title>
+	<title>Ship Sim Friction</title>
 	<style type="text/css">
 		#canvas {
 			background-color: #000;
@@ -25,7 +25,9 @@
 				left    = 0,
 				top     = 0,
 				right   = canvas.width,
-				bottom  = canvas.height
+				bottom  = canvas.height,
+
+				friction = .98
 
 			ship.x = canvas.width / 2
 			ship.y = canvas.height / 2
@@ -61,6 +63,10 @@
 
 				vx += ax
 				vy += ay
+
+				vx *= friction
+				vy *= friction
+
 				ship.x += vx
 				ship.y += vy
 				ship.draw( context )
