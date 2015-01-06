@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mouse Events</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<textarea id="log"></textarea>
+	<script type="text/javascript" src="ball.js"></script>
+	<script type="text/javascript" src="utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	= document.getElementById( 'canvas' ),
+				context 	= canvas.getContext( '2d' ),
+				ball    	= new Ball,
+				vx  		= Math.random() * 10 - 5,
+				vy  		= -10,
+				oldX        = 0,
+				oldY		= 0,
+				bounce 		= -.7,
+				gravity 	= .2,
+				isMouseDown = false
+
+			ball.x = canvas.width / 2
+			ball.y = canvas.height / 2
+
+			ball.draw( context )
+
+			canvas.addEventListener( 'mousedown', function( e ) {
+				if ( utils.containsPoint( ball.getBounds(), e.x, e.y ) ) {
+					isMouseDown = true
+					oldX = ball.x
+					oldY = ball.y
+					canvas.addEventListener( 'mouseup', onMouseUp )
+					canvas.addEventListener( 'mousemove', onMousMove )
+				}
+			})
+
+			function onMouseUp() {
+				isMouseDown = false
+				canvas.removeEventListener( 'mouseup', onMouseUp )
+				canvas.removeEventListener( 'mousemove', onMousMove )
+			}
+
+			function onMousMove( e ) {
+				ball.x = e.x
+				ball.y = e.y
+
+				var angle = Math.atan2( ball.y, ball.x )
+			}
+
+			function checkBoundaries() {
+				var left   = 0,
+					right  = canvas.width,
+					top    = 0,
+					bottom = canvas.height
+
+				vy += gravity
+				ball.x += vx
+				ball.y += vy
+
+				if ( ball.x + ball.radius > right ) {
+					ball.x = right - ball.radius
+					vx *= bounce
+				} else if ( ball.x - ball.radius < left ) {
+					ball.x = left + ball.radius
+					vx *= bounce
+				}
+
+				if ( ball.y + ball.radius > bottom ) {
+					ball.y = bottom - ball.radius
+					vy *= bounce
+				} else if ( ball.y - ball.radius < top ) {
+					ball.y = top + ball.radius
+					vy *= bounce
+				}
+			}
+
+			function traceVelocity() {
+				vx   = ball.x - oldX
+				vy   = ball.y - oldY
+				oldX = ball.x
+				oldY = ball.y
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+				if ( !isMouseDown ) {
+					checkBoundaries()
+				} else {
+					traceVelocity()
+				}
+				ball.draw( context )
+			}())
+		}())
+	</script>
+</body>
+</html>
