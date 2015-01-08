@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chase the Mouse</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	= document.getElementById( 'canvas' ),
+				context 	= canvas.getContext( '2d' ),
+				ball    	= new Ball,
+				isMouseDown = false,
+				targetX     = canvas.width * .8,
+				targetY		= canvas.height * .8,
+				easing 	    = .1,
+				isStopped   = false,
+				frameID
+
+			ball.x = 0
+			ball.y = 0
+
+			ball.draw( context )
+
+			canvas.addEventListener( 'mousemove', onMousMove )
+
+			function onMousMove( e ) {
+				targetX = e.x
+				targetY = e.y
+
+				isStopped && drawFrame()
+			}
+
+			function drawFrame() {
+				isStopped = false
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				frameID = window.requestAnimationFrame( drawFrame )
+				ball.x += ( targetX - ball.x ) * easing
+					ball.y += ( targetY - ball.y ) * easing
+
+					if ( Math.abs( targetX - ball.x ) < .1 ) {
+						cancelAnimationFrame( frameID )
+						console.log( 'Animation is stopped.' )
+						isStopped = true
+					}
+				ball.draw( context )
+			}
+
+			drawFrame()
+		}())
+	</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drag and Drop Easing</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<textarea id="log"></textarea>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	= document.getElementById( 'canvas' ),
+				context 	= canvas.getContext( '2d' ),
+				ball    	= new Ball,
+				isMouseDown = false,
+				targetX     = canvas.width * .8,
+				targetY		= canvas.height * .8,
+				easing 	    = .05,
+				frameID
+
+			ball.x = 0
+			ball.y = 0
+
+			ball.draw( context )
+
+			canvas.addEventListener( 'mousedown', function( e ) {
+				if ( utils.containsPoint( ball.getBounds(), e.x, e.y ) ) {
+					isMouseDown = true
+					canvas.addEventListener( 'mouseup', onMouseUp )
+					canvas.addEventListener( 'mousemove', onMousMove )
+				}
+			})
+
+			function onMouseUp() {
+				isMouseDown = false
+				canvas.removeEventListener( 'mouseup', onMouseUp )
+				canvas.removeEventListener( 'mousemove', onMousMove )
+			}
+
+			function onMousMove( e ) {
+				ball.x = e.x
+				ball.y = e.y
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				frameID = window.requestAnimationFrame( drawFrame )
+				if ( !isMouseDown ) {
+					ball.x += ( targetX - ball.x ) * easing
+					ball.y += ( targetY - ball.y ) * easing
+
+					if ( Math.abs( targetX - ball.x ) < .01 ) {
+						cancelAnimationFrame( frameID )
+					}
+				}
+				ball.draw( context )
+			}())
+		}())
+	</script>
+</body>
+</html>

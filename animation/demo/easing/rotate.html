@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rotate</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../arrow.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	= document.getElementById( 'canvas' ),
+				context 	= canvas.getContext( '2d' ),
+				arrow    	= new Arrow,
+				targetX     = canvas.width * .8,
+				targetY		= canvas.height * .8,
+				easing 	    = 50,
+				rotation    = 90,
+				vr          = 0,
+				targetRotation = 270,
+				radian      = Math.PI / 180,
+				frameID
+
+			oldX = arrow.x = canvas.width / 2
+			arrow.y = canvas.height / 2
+
+			canvas.addEventListener( 'mousemove', function( e ) {
+				targetX = e.x
+
+				vr = easing * ( 1 - ( targetX - arrow.x ) / oldX )
+			})
+
+			;(function drawFrame() {
+				isStopped = false
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+
+				rotation += vr
+				arrow.rotation = rotation * radian
+				arrow.draw( context )
+			}())
+		}())
+	</script>
+</body>
+</html>
