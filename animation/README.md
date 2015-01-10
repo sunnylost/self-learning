@@ -129,3 +129,18 @@ if ( speed > friction ) {
 vx *= friction
 vy *= friction
 ```
+
+## easing 与 spring
+
+最简单的 easing(缓动) 解释就是速度与距离成比例。
+
+```javascript
+var dx = targetX - o.x,
+	dy = targetY - o.y
+
+vx = dx * easing
+vy = dy * easing
+
+o.x += vx
+o.y += vy
+```

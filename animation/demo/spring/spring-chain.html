@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spring Chain</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	= document.getElementById( 'canvas' ),
+				context 	= canvas.getContext( '2d' ),
+				balls       = [],
+				ballsNum    = 5,
+				targetX     = 0,
+				targetY		= 0,
+				spring 	    = .03,
+				friction    = .9,
+				gravity     = 2
+
+			function move( targetX, targetY ) {
+				var len = 0, ball
+
+				context.beginPath()
+
+				while( len < ballsNum ) {
+					ball = balls[ len ]
+
+					ball.vx += ( targetX - ball.x ) * spring
+					ball.vy += ( targetY - ball.y ) * spring
+
+					ball.vy += gravity
+
+					ball.vx *= friction
+					ball.vy *= friction
+
+					context.moveTo( targetX, targetY )
+
+					targetX = ball.x += ball.vx
+					targetY = ball.y += ball.vy
+
+					context.lineTo( ball.x, ball.y )
+					context.stroke()
+					ball.draw( context )
+
+					len++
+				}
+			}
+
+			for ( var i = 0; i < ballsNum; i++ ) {
+				balls.push( new Ball( 20 ) )
+			}
+
+			canvas.addEventListener( 'mousemove', onMousMove )
+
+			function onMousMove( e ) {
+				targetX = e.x
+				targetY = e.y
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+				
+				move( targetX, targetY )
+			}())
+		}())
+	</script>
+</body>
+</html>

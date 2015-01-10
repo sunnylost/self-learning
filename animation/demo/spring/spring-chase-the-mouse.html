@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Chase the Mouse</title>
+	<title>Spring Chase the Mouse</title>
 </head>
 <body>
 	<canvas id="canvas" width="800" height="800">
@@ -17,12 +17,16 @@
 				isMouseDown = false,
 				targetX     = canvas.width * .8,
 				targetY		= canvas.height * .8,
-				easing 	    = .1,
-				isStopped   = false,
+				spring 	    = .02,
+				friction    = .92,
+				gravity     = 2,
+				vx 			= 0,
+				vy			= 0,
 				frameID
 
 			ball.x = 0
 			ball.y = 0
+			ball.radius = 20
 
 			ball.draw( context )
 
@@ -39,14 +43,22 @@
 				isStopped = false
 				context.clearRect( 0, 0, canvas.width, canvas.height )
 				frameID = window.requestAnimationFrame( drawFrame )
-				ball.x += ( targetX - ball.x ) * easing
-				ball.y += ( targetY - ball.y ) * easing
+				vx += ( targetX - ball.x ) * spring
+				vy += ( targetY - ball.y ) * spring
 
-				if ( Math.abs( targetX - ball.x ) < .1 ) {
-					cancelAnimationFrame( frameID )
-					console.log( 'Animation is stopped.' )
-					isStopped = true
-				}
+				vy += gravity
+
+				vx *= friction
+				vy *= friction
+
+				ball.x += vx
+				ball.y += vy
+
+				context.beginPath()
+				context.moveTo( ball.x, ball.y )
+				context.lineTo( targetX, targetY )
+				context.stroke()
+
 				ball.draw( context )
 			}
 
