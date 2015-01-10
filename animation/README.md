@@ -144,3 +144,29 @@ vy = dy * easing
 o.x += vx
 o.y += vy
 ```
+
+spring(弹簧) 运动则是加速度与距离成比例。
+
+```javascript
+var ax = ( targetX - o.x ) * spring,
+	ay = ( targetY - o.y ) * spring
+
+vx += ax
+vy += ay
+
+vx *= friction
+vy *= friction
+
+o.x += vx
+o.y += vy
+```
+
+偏移弹性运动：
+
+```javascript
+var dx = o.x - fixedX,
+	dy = o.y - fixedY,
+	angle = Math.atan2( dy, dx ),
+	targetX = fixedX + Math.cos( angle ) * springLength,
+	targetY = fixedY + Math.sin( angle ) * springLength
+```

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Offset Spring</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	 = document.getElementById( 'canvas' ),
+				context 	 = canvas.getContext( '2d' ),
+				ball    	 = new Ball,
+				springLength = 100,
+				spring 	     = .02,
+				friction     = .92,
+				mouseX       = 0,
+				mouseY       = 0,
+				vx 			 = 0,
+				vy			 = 0
+
+			canvas.addEventListener( 'mousemove', onMousMove )
+
+			function onMousMove( e ) {
+				mouseX = e.x
+				mouseY = e.y
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+				
+				var dx      = mouseX - ball.x
+					dy      = mouseY - ball.y,
+					angle   = Math.atan2( dy, dx ),
+					targetX = mouseX + Math.cos( angle ) * springLength,
+					targetY = mouseY + Math.sin( angle ) * springLength
+
+				vx += ( targetX - ball.x ) * spring
+				vy += ( targetY - ball.y ) * spring
+
+				vx *= friction
+				vy *= friction
+
+				ball.x += vx
+				ball.y += vy
+
+				context.beginPath()
+				context.moveTo( ball.x, ball.y )
+				context.lineTo( mouseX, mouseY )
+				context.stroke()
+
+				ball.draw( context )
+			})()
+		}())
+	</script>
+</body>
+</html>

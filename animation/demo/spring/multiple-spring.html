@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multiple Spring</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	 = document.getElementById( 'canvas' ),
+				context 	 = canvas.getContext( '2d' ),
+				ball         = new Ball( 20 ),
+				handles      = [],
+				numHandles   = 4,
+				spring 	     = .03,
+				friction     = .9,
+				movingHandle = null
+
+			for ( var handle, i = 0; i < numHandles; i++ ) {
+				handle   = new Ball( 10, '#0ff' )
+				handle.x = Math.random() * canvas.width
+				handle.y = Math.random() * canvas.height
+				handles.push( handle )
+			}
+
+			canvas.addEventListener( 'mousedown', function( e ) {
+				handles.forEach( function( handle ) {
+					if ( utils.containsPoint( handle.getBounds(), e.x, e.y )) {
+						movingHandle = handle
+					}
+				})
+			} )
+
+			canvas.addEventListener( 'mouseup', function() {
+				movingHandle = null
+			})
+
+			canvas.addEventListener( 'mousemove', function( e ) {
+				if ( movingHandle ) {
+					movingHandle.x = e.x
+					movingHandle.y = e.y
+				}
+			})
+
+			function applyHandle( handle ) {
+				var dx = handle.x - ball.x,
+					dy = handle.y - ball.y
+
+				ball.vx += dx * spring
+				ball.vy += dy * spring
+			}
+
+			function drawHandle( handle ) {
+				context.moveTo( ball.x, ball.y )
+				context.lineTo( handle.x, handle.y )
+				context.stroke()
+				handle.draw( context )
+			}
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+				
+				handles.forEach( applyHandle )
+
+				ball.vx *= friction
+				ball.vy *= friction
+
+				ball.x += ball.vx
+				ball.y += ball.vy
+
+				context.beginPath()
+				handles.forEach( drawHandle )
+				ball.draw( context )
+			}())
+		}())
+	</script>
+</body>
+</html>
