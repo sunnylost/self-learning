@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Collision</title>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800">
+		<p>This browser does not support the <code>canvas</code> element.</p>
+	</canvas>
+	<script type="text/javascript" src="../ball.js"></script>
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var canvas  	   = document.getElementById( 'canvas' ),
+				context 	   = canvas.getContext( '2d' ),
+				ball0    	   = new Ball( 50, '#0f0' ),
+				ball1		   = new Ball( 50 ),
+				ball0_dragging = false,
+				ball1_dragging = false
+
+			ball0.x = Math.random() * canvas.width
+			ball0.y = Math.random() * canvas.height
+			ball1.x = Math.random() * canvas.width
+			ball1.y = Math.random() * canvas.height
+
+			canvas.addEventListener( 'mousedown', function( e ) {
+				if ( utils.containsPoint( ball0.getBounds(), e.x, e.y )) {
+					ball0_dragging = true
+				}
+
+				if ( utils.containsPoint( ball1.getBounds(), e.x, e.y )) {
+					ball1_dragging = true
+				}
+			} )
+
+			canvas.addEventListener( 'mouseup', function( e ) {
+				if ( ball0_dragging || ball1_dragging ) {
+					ball0_dragging = ball1_dragging = false
+				}
+			})
+
+			canvas.addEventListener( 'mousemove', function( e ) {
+				if ( ball0_dragging ) {
+					ball0.x = e.x
+					ball0.y = e.y
+				}
+
+				if ( ball1_dragging ) {
+					ball1.x = e.x
+					ball1.y = e.y
+				}
+			})
+
+
+			;(function drawFrame() {
+				context.clearRect( 0, 0, canvas.width, canvas.height )
+				window.requestAnimationFrame( drawFrame )
+				
+				var boundsA = ball0.getBounds(),
+					boundsB = ball1.getBounds()
+
+				context.strokeRect( boundsA.x, boundsA.y, boundsA.width, boundsA.height )
+				context.strokeRect( boundsB.x, boundsB.y, boundsB.width, boundsB.height )
+
+				if ( utils.intersects( boundsA, boundsB ) ) {
+					console.log( 'Hit!' )
+				}
+
+				ball0.draw( context )
+				ball1.draw( context )
+			})()
+		}())
+	</script>
+</body>
+</html>
