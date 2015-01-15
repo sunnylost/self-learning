@@ -13,24 +13,32 @@
             var canvas  = document.getElementById( 'canvas' ),
                 context = canvas.getContext( '2d' ),
                 centerBall = new Ball( 100, '#ccc' ),
-                balls  = [],
+                balls    = [],
                 numBalls = 10,
-                spring = .03,
-                bounce = -1
+                spring   = .03,
+                bounce   = -.9,
+                friction = .9,
+                prefix   = '000000',
+                color
 
             centerBall.x = canvas.width / 2
             centerBall.y = canvas.height / 2
 
             for ( var ball, i = 0; i < numBalls; i++ ) {
-                ball = new Ball( Math.random() * 40 + 5, '#' + ( Math.random() * 0xffffff ) )
-                ball.x = Math.random() * canvas.width / 2
-                ball.y = Math.random() * canvas.height / 2
+                color   = parseInt( Math.random() * 0xffffff ).toString( 16 )
+                ball    = new Ball( Math.random() * 40 + 5, '#' + prefix.substring( color.length ) + color )
+                ball.x  = Math.random() * canvas.width / 2
+                ball.y  = Math.random() * canvas.height / 2
                 ball.vx = Math.random() * 6 - 3
                 ball.vy = Math.random() * 6 - 3
+                ball.index = i
                 balls.push( ball )
             }
 
             function move( ball ) {
+                //ball.vx *= friction
+                //ball.vy *= friction
+
                 ball.x += ball.vx
                 ball.y += ball.vy
 
@@ -51,22 +59,35 @@
                 }
             }
 
-            function draw( ball ) {
+            function hit( ballA, ballB ) {
+                var dx, dy, d, min_dist, angle, tx, ty, ax, ay
 
-                var dx = ball.x - centerBall.x,
-                    dy = ball.y - centerBall.y,
-                    d  = Math.sqrt( dx * dx + dy * dy ),
-                    min_dist = ball.radius + centerBall.radius
+                dx       = ballA.x - ballB.x
+                dy       = ballA.y - ballB.y
+                d        = Math.sqrt( dx * dx + dy * dy )
+                min_dist = ballA.radius + ballB.radius
 
-                if ( d <= min_dist ) {
-                    var angle = Math.atan2( dy, dx ),
-                        tx    = centerBall.x + Math.cos( angle ) * min_dist,
-                        ty    = centerBall.y + Math.sin( angle ) * min_dist
+                if ( d < min_dist ) {
+                    angle = Math.atan2( dy, dx )
+                    tx    = ballB.x + Math.cos( angle ) * min_dist
+                    ty    = ballB.y + Math.sin( angle ) * min_dist
+                    ax    = ( tx - ballA.x ) * spring
+                    ay    = ( ty - ballA.y ) * spring
 
-                    ball.vx += ( tx - ball.x ) * spring
-                    ball.vy += ( ty - ball.y ) * spring
+                    ballA.vx += ax
+                    ballA.vy += ay
+
+                    ballB.vx -= ax
+                    ballB.vy -= ay
                 }
+            }
 
+            function draw( ball ) {
+                hit( ball, centerBall )
+
+                for ( var i = ball.index + 1; i < numBalls; i++ ) {
+                    hit( ball, balls[ i ] )
+                }
                 ball.draw( context )
             }
 
