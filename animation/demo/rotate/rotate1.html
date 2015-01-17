@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script src="../ball.js"></script>
+    <script>
+        (function() {
+            var canvas = document.getElementById( 'canvas' ),
+                ctx    = canvas.getContext( '2d' ),
+                ball   = new Ball( 30, 'green' ),
+                rv     = .05,
+                sin    = Math.sin( rv ),
+                cos    = Math.cos( rv ),
+                centerX = canvas.width / 2,
+                centerY = canvas.height / 2
+
+            ball.x = Math.random() * canvas.width
+            ball.y = Math.random() * canvas.height
+
+            ;(function drawFrame() {
+                var x1 = ball.x - centerX,
+                    y1 = ball.y - centerY,
+                    x2 = x1 * cos - y1 * sin,
+                    y2 = y1 * cos + x1 * sin
+
+                ctx.clearRect( 0, 0, canvas.width, canvas.height )
+                requestAnimationFrame( drawFrame )
+
+                ball.x = centerX + x2
+                ball.y = centerY + y2
+
+                ball.draw( ctx )
+            }())
+        }())
+    </script>
+</body>
+</html>

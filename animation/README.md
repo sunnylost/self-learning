@@ -170,3 +170,53 @@ var dx = o.x - fixedX,
 	targetX = fixedX + Math.cos( angle ) * springLength,
 	targetY = fixedY + Math.sin( angle ) * springLength
 ```
+
+## 坐标旋转
+
+### 简单坐标旋转
+
+当物体绕着一个点进行旋转时，根据如下方式计算出每次旋转时，物体的位置：
+
+```javascript
+x, y       //物体的坐标
+angle      //初始角度
+rv = .05   //每次旋转的角度
+centerX, centerY //中心点的坐标，物体绕着该点旋转
+
+angle += rv  //旋转
+dx = x - centerX //物体距离旋转点的横坐标
+dy = y - centerY //...
+dist  = Math.sqrt( dx * dx + dy * dy ) //物体和中心点的距离
+angle = Math.atan2( dy, dx )
+x1 = centerX + cos( angle ) * dist
+y1 = centerY + sin( angle ) * dist
+```
+
+### 高级坐标旋转
+
+公式：
+
+- x1 = x * cos( rotation ) - y * sin( rotation )
+- y1 = y * cos( rotation ) + x * sin( rotation )
+
+rotation 是物体在这一帧中旋转的角度
+
+公式推导：
+
+```javascript
+x = radius * cos( angle )
+y = radius * sin( angle )
+x1 = radius * cos( angle + rotation )
+y1 = radius * sin( angle + rotation )
+
+//根据三角函数的公式进行变换
+//cos( a + b ) = cos( a ) * cos( b ) - sin( a ) * sin( b )
+//sin( a + b ) = sin( a ) * cos( b ) + cos( a ) * sin( b )
+
+x1 = radius * cos( angle ) * cos( rotation ) - radius * sin( angle ) * sin( rotation )
+y1 = radius * sin( angle ) * cos( rotation ) + radius * cos( angle ) * sin( rotation )
+
+//再根据前面 x 和 y 的等式
+x1 = x * cos( rotation ) - y * sin( rotation )
+y1 = y * cos( rotation ) + x * sin( rotation )
+```
