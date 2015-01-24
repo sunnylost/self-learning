@@ -220,3 +220,36 @@ y1 = radius * sin( angle ) * cos( rotation ) + radius * cos( angle ) * sin( rota
 x1 = x * cos( rotation ) - y * sin( rotation )
 y1 = y * cos( rotation ) + x * sin( rotation )
 ```
+
+## 桌球物理
+
+### Momentum(动量)
+
+动量就是 mass(质量) 与 velocity(速度) 的乘积：
+
+> p = m * v
+
+### Conservation of Momentum(动量守恒)
+
+简单理解为：一个系统在碰撞前后的总动量相等。这里的系统指的是拥有动量并且发生碰撞的所有物体。比如两个物体 A 与 B，它们的动量总和在碰撞前后相等。
+
+> (m<sub>0</sub> * v<sub>0</sub>) + (m<sub>1</sub> * v<sub>1</sub>) = (m<sub>0</sub> * v<sub>0</sub>Final) + (m<sub>1</sub> * v<sub>1</sub>Final)
+
+为了解决上面的等式，需要使用动能(kinetic energy)定理 
+>KE = 0.5 * m * v<sup>2</sup>
+
+动能在碰撞前后也是相等的：
+
+> KE<sub>0</sub> + KE<sub>1</sub> = KE<sub>0</sub>Final + KE<sub>1</sub>Final
+       
+最终推导结果：
+
+> v<sub>0</sub>Final = ((m<sub>0</sub> - m<sub>1</sub>) * v<sub>0</sub> + 2 * m<sub>1</sub> * v<sub>1</sub>) / (m<sub>0</sub> + m<sub>1</sub>)
+> 
+> v<sub>1</sub>Final = ((m<sub>1</sub> - m<sub>0</sub>) * v<sub>1</sub> + 2 * m<sub>0</sub> * v<sub>0</sub>) / (m<sub>0</sub> + m<sub>1</sub>)
+
+当得到 v<sub>0</sub>Final 后，可以推导出如下公式来简化计算：
+
+> vTotal = v<sub>0</sub> - v<sub>1</sub>
+
+> v<sub>1</sub>Final = vTotal + v<sub>0</sub>Final

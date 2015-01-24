@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>One-Axis</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script src="../ball.js"></script>
+    <script src="../utils.js"></script>
+    <script>
+        window.onload = function() {
+            var canvas  = document.getElementById( 'canvas' ),
+                context = canvas.getContext( '2d' ),
+                ball0   = new Ball(),
+                ball1   = new Ball()
+
+            ball0.mass = 2
+            ball0.x    = 50
+            ball0.y    = canvas.height / 2
+            ball0.vx   = 1
+
+            ball1.mass = 1
+            ball1.x    = 300
+            ball1.y    = canvas.height / 2
+            ball1.vx   = -2
+
+            ;(function drawFrame() {
+                window.requestAnimationFrame( drawFrame )
+                context.clearRect( 0, 0, canvas.width, canvas.height )
+
+                ball0.x += ball0.vx
+                ball1.x += ball1.vx
+
+                var dist   = ball1.x - ball0.x,
+                    vTotal = ball0.vx - ball1.vx
+
+                if ( Math.abs( dist ) < ball0.radius + ball1.radius ) {
+                    ball0.vx = (( ball0.mass - ball1.mass ) * ball0.vx + 2 * ball1.mass * ball1.vx ) / ( ball0.mass + ball1.mass )
+                    ball1.vx = ball0.vx + vTotal
+
+                    ball0.x += ball0.vx
+                    ball1.x += ball1.vx
+                }
+
+                ball0.draw( context )
+                ball1.draw( context )
+            })()
+        }
+    </script>
+</body>
+</html>

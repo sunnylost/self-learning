@@ -29,11 +29,11 @@
 				mouseY = e.y
 			}
 
-			;(function drawFrame() {
+			(function drawFrame() {
 				context.clearRect( 0, 0, canvas.width, canvas.height )
 				window.requestAnimationFrame( drawFrame )
 				
-				var dx      = mouseX - ball.x
+				var dx      = mouseX - ball.x,
 					dy      = mouseY - ball.y,
 					angle   = Math.atan2( dy, dx ),
 					targetX = mouseX + Math.cos( angle ) * springLength,
