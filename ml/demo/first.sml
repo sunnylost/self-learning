@@ -10,11 +10,18 @@ val z = y - x;
 
 val abs_of_z = if z < 0 then 0 - z else z
 
-val abs_of_z_simple = abs z
+val abs_of_z_simple = abs z;
 
 val negative_num = ~5;
 
 val w = x + negative_num;
 
-val y = ~1;
+val y = ~1; 
 (* tilde means negative. *)
+
+fun pow( x: int, y: int ) =
+    if y = 0
+    then 1
+    else x * pow( x, y - 1 );
+
+pow( 5, 2 )
