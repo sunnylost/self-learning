@@ -54,3 +54,31 @@ string literal: "abc"
     
 **变量能且只能被定义一次，但是可以被多次声明。**
 
+『引用』(Reference) 就是别名，一旦声明，它就与一个变量进行了绑定，无法解绑。
+
+```
+int val = 10;
+int val2 = 20;
+int& rval = val;
+rval = val2;  //无效
+```
+关于『引用』的两点注意：
+
+- 引用的类型必须与绑定的类型一致
+- 只能绑定对象，不能绑定 literal
+
+```
+int &ref = 10; //error
+double dval = 3.14;
+int &ref = dval; //error
+```
+
+
+---
+
+[size_type](http://stackoverflow.com/questions/4849678/c-for-loop-size-type-vs-size-t)，它是无符号的，可以作为最大的索引值，所以选择使用它而不是 `int`。
+
+`typedef type name;` 使用 `name` 来替代 `type`。
+
+`Vector` 是一种容器，类似于 JS 的数组。包含方法 `begin()`、`end()`、`size()`、`push_back()`。
+
