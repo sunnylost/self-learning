@@ -5,6 +5,10 @@
 - [Understanding ECMAScript 6](https://leanpub.com/understandinges6/read/)
 - [ECMAScript 6 入门](http://es6.ruanyifeng.com/)
 
+## Block Binding
+
+使用 `let` 和 `const` 定义的变量不会 hoist.
+
 ## 字符串
 
 `repeat()`，不必再用创建数组后 `join('')` 来模拟了。
@@ -64,3 +68,29 @@ Object.is( 0, -0 ) //false
 ```
 
 正负 0 只有做为被除数的时候才有区别，`x / 0` 得到 `Infinity`，`x / -0 ` 得到 `-Infinity`。
+
+## Function
+
+### default parameter
+
+    ```javascript
+    function test( a, b = 12 ) {
+    }
+    ```
+    
+只要使用了 ES 6 的默认参数, `arguments` 就自动遵从 ES 5 的严格模式,与参数解绑.
+    
+    ```javascript
+    function getValue() {
+        return 5;
+    }
+    
+    function add(first, second = getValue()) {
+        return first + second;
+    }
+    
+    console.log(add(1, 1));     // 2
+    console.log(add(1));        // 6
+    ```
+
+`getValue()` 只有在 `add` 调用,并且没有传第二个参数时才会被执行.

@@ -74,11 +74,24 @@
     let n = { x, y, ...z };
     n; // { x:1, y:2, a:3, b:4 }
     ```
+    
+- [function.sent](https://github.com/allenwb/ESideas/blob/master/Generator%20metaproperty.md)
+
+第一次调用 `next()` 时会执行 `generator` 的函数体,这时候通过 `next()` 传入的参数会被忽略掉.
+
+`function.sent` 表示通过 `next()` 传入的参数值.
+
 
 ## Stage 1 - Proposal
 
 - [trimLeft and trimRight](https://github.com/sebmarkbage/ecmascript-string-left-right-trim)
 
     `String.prototype.trimLeft/trimRight` 将改名为 `String.prototype.trimStart/trimEnd`.
+    
+- [System.global](https://github.com/tc39/proposal-global)
+
+    获取全局对象.
+
+    
     
 ## Stage 0 - Strawman
