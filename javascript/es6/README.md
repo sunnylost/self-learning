@@ -69,6 +69,15 @@ Object.is( 0, -0 ) //false
 
 正负 0 只有做为被除数的时候才有区别，`x / 0` 得到 `Infinity`，`x / -0 ` 得到 `-Infinity`。
 
+## Class
+
+- 目前只支持方法,不支持属性(ES 7). 
+- 所有方法均不可遍历.
+- `Class` 内的代码处于严格模式下.
+- 调用 `Class` 必须使用 `new`, 否则报错.
+- `Class` 名对于内部来说是 `const` 定义的,无法覆盖. 对于外部代码没有影响.
+- `Class` 与 `function` 一样, 均有声明和表达式两种定义方式, 也能作为参数传递.
+
 ## Function
 
 ### default parameter

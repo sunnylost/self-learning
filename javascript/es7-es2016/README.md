@@ -91,7 +91,28 @@
 - [System.global](https://github.com/tc39/proposal-global)
 
     获取全局对象.
+    
+- [ES Class Fields & Static Properties](https://github.com/jeffmo/es-class-fields-and-static-properties)
 
+    ```javascript
+    //instance field
+    class MyClass {
+      myProp = 42;
+    
+      constructor() {
+        console.log(this.myProp); // Prints '42'
+      }
+    }
+    
+    //static property
+    class MyClass {
+      static myStaticProp = 42;
+    
+      constructor() {
+        console.log(MyClass.myStaticProp); // Prints '42'
+      }
+    }
+    ```
     
     
 ## Stage 0 - Strawman
