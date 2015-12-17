@@ -114,5 +114,93 @@
     }
     ```
     
+- [Function.prototype.toString revision](https://github.com/michaelficarra/Function-prototype-toString-revision)
+
+- [String.prototype.matchAll](https://github.com/tc39/String.prototype.matchAll)
+
+- [ArrayBuffer.transfer](https://gist.github.com/lukewagner/2735af7eea411e18cf20)
+
+- [Additional export-from statements](https://github.com/leebyron/ecmascript-more-export-from)
+
+- [Call constructor](https://github.com/tc39/ecma262/blob/master/workingdocs/callconstructor.md)
+
+    ES 5 中构造函数既可以用 `new` 调用, 也可以直接作为函数调用. ES 6 的 `Class` 只能用 `new`.
+    
+    ES 6 增加了 `new.target`[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target) 来在函数中判断是否通过 `new` 调用.
+    
+    ```javascript
+    function Foo() {
+      if (!new.target) throw "Foo() must be called with new";
+      console.log("Foo instantiated with new");
+    }
+    ```
+    
+    `new.target` 缺点:
+        - 需要使用 `function`
+        - 语义不明显
+        
+    使用新的 `call`:
+    
+        ```javascript
+        import { initializeDate, ToDateString } from './date-implementation';
+        
+        class Date {
+          constructor(...args) {
+            initializeDate(super(), ...args);
+          }
+        
+          call constructor() {
+            return ToDateString(clockGetTime());
+          }
+        }
+        ```
+        
+- [ECMAScript Observable](https://github.com/zenparsing/es-observable)
+
+    [RxJS](https://github.com/Reactive-Extensions/RxJS)
+    
+- [Class and Property Decorators](https://github.com/wycats/javascript-decorators/blob/master/README.md)
     
 ## Stage 0 - Strawman
+
+- [Private State](https://github.com/wycats/javascript-private-state)
+
+    ```javascript
+    class {
+      private #data1;   // data1 is the name of a private data slot
+                        // the scope of 'data1' is the body of the class definition 
+      constructor(d) {
+        // #data1 has the value undefined here
+    
+        // # is used to access a private data slot
+        // #data1 is shorthand for this.#data1
+        #data1 = d; 
+      }
+    
+      // a method that accesses a private data slot
+      get data() {
+        return #data1;
+      }
+    }
+    ```
+
+- [Function Bind Syntax](https://github.com/zenparsing/es-function-bind)
+    
+    ```javascript
+    // Create bindings for just the methods that we need
+    let { find, html } = jake;
+    
+    // Find all the divs with class="myClass", then get all of the "p"s and
+    // replace their content.
+    document.querySelectorAll("div.myClass")::find("p")::html("hahaha");
+    
+    
+    $(".some-link").on("click", ::view.reset);
+    ```
+    
+## Removed
+
+- `Object.observe`
+    
+    * [An update on Object.observe](https://esdiscuss.org/topic/an-update-on-object-observe)
+    * [Death of Object.observe()](https://www.sitepen.com/blog/2015/11/06/death-of-object-observe/)
