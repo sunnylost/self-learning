@@ -4,6 +4,8 @@
 
 - [Understanding ECMAScript 6](https://leanpub.com/understandinges6/read/)
 - [ECMAScript 6 入门](http://es6.ruanyifeng.com/)
+- [ES6 in depth](https://ponyfoo.com/articles/tagged/es6-in-depth)
+- [ES6 Overview in 350 Bullet Points](https://github.com/bevacqua/es6)
 
 ## Block Binding
 
@@ -53,11 +55,19 @@ sticky，黏着，会在匹配后自动更新正则对象的 `lastIndex` 属性�
 
 **注意，带有 `y` flag 的正则会默认拥有 `/^/`。** 
 
+## Symbol
+
+新增基础类型, 用于作为对象的 `key`.
+
+`System.for( name )` 会去根据 `name` 查找已经存在的 `Symbol` 并返回.
+
+`Symbol` 实例无法用于字符串拼接, 只能手动调用 `toString()` 或用 `String()` 构造函数转换.
+
 ## Object
 
 ### `is()`
 
-绝对部分时候等同于 `===`，除了对于 `NaN`，`0`，`-0`
+绝大部分时候等同于 `===`，除了对于 `NaN`，`0`，`-0`
 
 ```javascript
 NaN === NaN  	      //false

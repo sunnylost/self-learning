@@ -77,9 +77,9 @@
     
 - [function.sent](https://github.com/allenwb/ESideas/blob/master/Generator%20metaproperty.md)
 
-第一次调用 `next()` 时会执行 `generator` 的函数体,这时候通过 `next()` 传入的参数会被忽略掉.
+    第一次调用 `next()` 时会执行 `generator` 的函数体,这时候通过 `next()` 传入的参数会被忽略掉.
 
-`function.sent` 表示通过 `next()` 传入的参数值.
+    `function.sent` 表示通过 `next()` 传入的参数值.
 
 
 ## Stage 1 - Proposal
@@ -126,7 +126,7 @@
 
     ES 5 中构造函数既可以用 `new` 调用, 也可以直接作为函数调用. ES 6 的 `Class` 只能用 `new`.
     
-    ES 6 增加了 `new.target`[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target) 来在函数中判断是否通过 `new` 调用.
+    ES 6 增加了 [`new.target`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target) 来在函数中判断是否通过 `new` 调用.
     
     ```javascript
     function Foo() {
@@ -136,8 +136,9 @@
     ```
     
     `new.target` 缺点:
-        - 需要使用 `function`
-        - 语义不明显
+    
+    - 需要使用 `function`
+    - 语义不明显
         
     使用新的 `call`:
     

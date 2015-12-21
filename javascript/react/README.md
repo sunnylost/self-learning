@@ -1,0 +1,5 @@
+[awesome react](https://github.com/enaqx/awesome-react)
+[OSCON - React Architecture](https://speakerdeck.com/vjeux/oscon-react-architecture)
+[React Presentation](https://speakerdeck.com/vjeux/react-presentation)
+[React: CSS in JS](https://speakerdeck.com/vjeux/react-css-in-js)
+[pure render](http://zhuanlan.zhihu.com/purerender)
