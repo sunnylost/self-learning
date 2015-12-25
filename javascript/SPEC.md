@@ -31,7 +31,7 @@
 
 - List
 
-    解释 `new` 表达式、函数调用等情况下的有序列表
+    解释 `new` 表达式、函数调用等情况下的参数列表
   
     用《》表示
 
@@ -50,25 +50,41 @@
     - \[[type]]: normal, break, continue, return, throw
     - \[[value]]: 生成的值
     - \[[target]]: 用于直接控制转移的目标标记
+    
+    `abrupt completion` 表明 \[[type]] 不为 `normal` 的 completion
+    
+    ReturnIfAbrupt( argument ) 操作表示如果 `argument` 是 `abrupt completion`, 那么返回 `argument`, 否则设置 `argument` 为 `argument.[[Value]]`
 
 - `Reference`
 
-    解释 `delete`、`typeof`、赋值操作符、`super` 等语言特点。
+    解释 `delete`、`typeof`、赋值操作符、`super` 等语言特性。
     
     `Reference` 是一个解决过的名字或属性绑定。
     
     包括：base、referenced name 和 strict reference 标记
+    
+- Property Descriptor
 
-对象的属性：
-     
-- primitive value
-          
-    Undefined, Null, Boolean, Number, String, Symbol
-          
-- function
+    解释对象属性的操作与实例化
+    
+    Property Descriptor 的值是 Record
+    
+    它还可以细分为 data Property Descriptor 和 accessor Property Descriptor
+    
+- Lexical Environment 和 Environment Record
+    
+    略
+    
+- Data Blocks
 
+    表示可变的数字序列
+    
 
-## Execution Code and Execution Context
+## 7 抽象操作
+
+略
+
+## 8 执行代码与执行环境
 
 ES 中共有三类可执行代码：
 
@@ -82,58 +98,88 @@ ES 中共有三类可执行代码：
 
 由两部分组成
   
-- Environment Record 记录 environment 内 identifier 的绑定
+- EnvironmentRecord 记录 environment 内 identifier 的绑定
 - outer Lexical Environment
 
-与特定的语言语法结构关联：FunctionDeclaration，BlockStatement，Catch，这些代码执行时就会创建一个新的词法环境
+与特定的语言语法结构关联：FunctionDeclaration，BlockStatement，TryStatement 中的 Catch，这些代码执行时就会创建一个新的词法环境
 
-global environment：global object 就是全局环境的 this，为全局环境的 record 提供了一些标识符的绑定。
+global environment：outer environment 为 `null`, global object 就是全局环境的 `this`
 
-module environment，function environment
+module environment: 包含模块的顶层声明(top level declaration)绑定, 也包括显式 `import` 进来的模块绑定, 模块的 outer environment 为 global environment.
+
+function environment: ES 函数对象的调用
+
+#### 8.1.1 Environment Record
 
 Environment Record
 
-- declarative environment record
+* declarative Environment Record
+    - Function Environment Record
+    - Module Environment Record
+* object Environment Record
+* global Environment Record
+
+- declarative Environment Record
 
 定义 FunctionDeclaration，VariableDeclaration，catch 的效果
 
 包括：variable，constant，let，class，module，import，function declaration
        
-object environment record
+- object environment record
 
     定义 WithStatement
     
-    包含了一个称为 binding object 的对象
+    包含了一个称为 binding object 的对象. 在 object environment record 中不存在不可变绑定(immutable binding)
 
-       global environment record 是 object environment record 的特例。
+    global environment record 是 object environment record 的特例。
 
-       Function Environment Record 包含额外的状态：
-            [[thisValue]]
-            [[thisBindingStatus]] ‘lexical’ 表示 arrow 函数
-            [[FunctionObject]]
-            [[HomeObject]]
-            [[NewTarget]]
+- Function Environment Record
 
-            arrow 函数没有 [[thisValue]] 值
+    Function Environment Record 包含额外的状态：
+    
+    * \[[thisValue]]
+    * \[[thisBindingStatus]] ‘lexical’ 表示 arrow 函数
+    * \[[FunctionObject]]
+    * \[[HomeObject]]
+    * \[[NewTarget]]
 
-       Global Environment Record
-            实际上由两个 record 组成
-                      Object Environment Record 将 Realm 内的全局对象作为它的 base 对象，它所包含的绑定：内置全局对象，FunctionDeclaration，GeneratorDeclaration，VariableStatement
-                      其余绑定都包含在 declarative Environment Record 中。
+    arrow 函数没有 [[thisValue]] 值
 
-            拥有的额外字段：
-                 [[ObjectRecord]]
-                 [[DeclarativeRecord]]
-                 [[VarNames]]  FunctionDeclaration，GeneratorDeclaration，VariableDeclaration 的字符串名
+- Global Environment Record
+    
+    表示被所有 Script 元素共享的最外层范围.
 
-8.2 Code Realms
-[[intrinsics]]
-  与该 Realm 关联的代码所使用的 intrinsic 值，包括各种构造函数，如 Object、Array 等
-[[globalThis]]
-  该 Realm 中的全局对象
-[[globalEnv]]
-  该 Realm 中的全局环境
-[[templateMap]]
+    实际上由两个 record 组成
+    
+    * Object Environment Record 将 Realm 内的全局对象作为它的 base 对象，它所包含的绑定：
+        - 内置全局对象
+        - FunctionDeclaration
+        - GeneratorDeclaration
+        - VariableStatement
+    * 其余绑定都包含在 declarative Environment Record 中
+
+    拥有的额外字段：
+    
+    * \[[ObjectRecord]]
+    * \[[DeclarativeRecord]]
+    * \[[VarNames]]  FunctionDeclaration，GeneratorDeclaration，VariableDeclaration 的字符串名
+
+### 8.2 Code Realms
+
+- \[[intrinsics]]
+
+    与该 Realm 关联的代码所使用的 intrinsic 值，包括各种构造函数，如 Object、Array 等
+    
+- \[[globalThis]]
+
+    该 Realm 中的全局对象
+    
+- \[[globalEnv]]
+
+    该 Realm 中的全局环境
+    
+- \[[templateMap]]
+
 
 ### 8.3 Execution Contexts
 
@@ -144,7 +190,7 @@ object environment record
 - Function 如果 EC 是在执行函数的代码，那么该 Function 就指向那个函数，如果是 Script 或 Module，该值为 null
 - Realm
 - LexicalEnvironment 标识符引用的解析
-- VariableEnvironment     EnvironmentRecord 记录了通过 VariableStatement 创建的绑定
+- VariableEnvironment EnvironmentRecord 记录了通过 VariableStatement 创建的绑定
 
 EC 可以暂停，一个新的 EC 被推入 stack 中，它执行完毕后，旧的 EC 可以恢复运行。
 LexicalEnvironment 和 VariableEnvironment 都是 Lexical Environment，EC 创建时，这两个值相同。
@@ -167,12 +213,14 @@ LexicalEnvironment 和 VariableEnvironment 都是 Lexical Environment，EC 创�
 5. 将 newContext 放进 execution context stack 中
 6. status = InitializeHostDefinedRealm( realm )
 7. 如果 status 是 abrupt completion
-   realm 无法创建，ES 执行失败
+    * realm 无法创建
+    * ES 执行失败
 8. 获取 ES 源代码 sourceText
-   a. 如果 sourceText 是 script
-        执行 EnqueueJob( ’ScriptJobs’, ScriptEvaluationJob, sourceText )
-   b. 如果 sourceText 是 module
-        执行 EnqueueJob( ‘ScriptJobs’, TopLevelModuleEvaluationJob, sourceText )
+    - a. 如果 sourceText 是 script
+        * 执行 EnqueueJob( ’ScriptJobs’, ScriptEvaluationJob, \<\<sourceText>> )
+    - b. 如果 sourceText 是 module
+        * 执行 EnqueueJob( ‘ScriptJobs’, TopLevelModuleEvaluationJob, \<\<sourceText>> )
+9. NextJob NormalCompletion( undefined )
 
 
 

@@ -3,8 +3,6 @@ self-learning
 
 Learn something I didn't know.
 
----
-
 ## Useful Tools
 
 * Sublime Text
