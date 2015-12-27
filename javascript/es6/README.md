@@ -63,6 +63,36 @@ sticky，黏着，会在匹配后自动更新正则对象的 `lastIndex` 属性�
 
 `Symbol` 实例无法用于字符串拼接, 只能手动调用 `toString()` 或用 `String()` 构造函数转换.
 
+well-known Symbol(from [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)):
+
+- Symbol.hasInstance
+
+    Specified as @@hasInstance. A method determining if a constructor object recognizes an object as its instance. Used by instanceof.
+    
+- Symbol.isConcatSpreadable
+
+    Specified as @@isConcatSpreadable. A Boolean value indicating if an object should be flattened to its array elements. Used by Array.prototype.concat().
+
+- Symbol.isRegExp
+
+    Specified as @@isRegExp. A Boolean value indicating if an object may be used as a regular expression.
+
+- Symbol.iterator
+
+    Specified as @@iterator. A method returning the default iterator for an object. Used by for...of.
+
+- Symbol.toPrimitive
+    
+    Specified as @@toPrimitive. A method converting an object to a primitive value.
+
+- Symbol.toStringTag
+    
+    Specified as @@toStringTag. A string value used for the default description of an object. Used by Object.prototype.toString()
+
+- Symbol.unscopables
+
+    Specified as @@unscopables. An Array of string values that are property values. These are excluded from the with environment bindings of the associated objects.
+
 ## Object
 
 ### `is()`
