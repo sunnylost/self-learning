@@ -11,3 +11,10 @@ CSS 属性，设置为`none`，元素就不会响应鼠标事件(包括 hover/cl
 文档：[MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)
 
 兼容性：[Caniuse](http://caniuse.com/#feat=pointer-events)
+
+## mask-box-image
+
+为元素的 `border-box` 设置蒙层. 目前需要加 `-webkit-` 前缀.
+
+文档: [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-mask-box-image)
+

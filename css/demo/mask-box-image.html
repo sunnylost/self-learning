@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Hexagon</title>
+    <style>
+        :root {
+            --mask-img : url(data:image/png;base64,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);
+        }
+
+        body {
+            background : #0a4e7d;
+        }
+
+        body > div {
+            margin: auto;
+        }
+
+        .hexagon {
+            position               : relative;
+            width                  : 100px;
+            height                 : 114px;
+            background-color       : #fff;
+            -webkit-mask-box-image : var(--mask-img);
+        }
+
+        .hexagon .avatar {
+            position               : absolute;
+            top                    : 5px;
+            right                  : 5px;
+            bottom                 : 5px;
+            left                   : 5px;
+            background             : no-repeat center;
+            background-size        : cover;
+            -webkit-mask-box-image : var(--mask-img);
+        }
+    </style>
+</head>
+<body>
+<div class="hexagon">
+    <div class="avatar" style="background-image: url(http://img.lum.dolimg.com/v1/images/flex_tablet_zootopia_selfie_c781d089.jpeg?region=0,0,1536,864&width=1200)"></div>
+</div
+</body>
+</html>
