@@ -1,6 +1,7 @@
 ## Resource
 
 * [CSS weekly](http://css-weekly.com/)
+* [CSS Spec's current work](https://www.w3.org/Style/CSS/current-work)
 
 ## Articles
 

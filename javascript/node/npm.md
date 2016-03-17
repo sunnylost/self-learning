@@ -20,3 +20,6 @@
 - 查看安装包是否有新版本: `npm outdated`
 
 - 查看全局安装包是否有新版本: `npm outdated -g --depth=0`
+
+
+[package.json: An Interactive Guide](http://browsenpm.org/package.json)
