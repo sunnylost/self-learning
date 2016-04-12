@@ -5,18 +5,22 @@
 Backbone 提供了 `noConflict`, 说明它真的只是个 library.
 
 ## Event
-on, off, once, trigger (bind, unbind)
-标准的 PubSub 模式。
 
-Backbone 也有上述接口
+on, off, once, trigger (bind, unbind) 标准的 PubSub 模式
 
-eventsApi 用于处理事件名为对象或空格分隔的多事件的情况。
+- eventsApi
 
-triggerEvents 经过优化，看起来是很奇怪
+    用于处理事件名为对象或空格分隔的多事件的情况
 
-listenTo、 listenToOnce
-    object.listenTo(other, event, callback)
-    使 object 监听 other 上的事件，实际上还是 other 监听了事件，但 object 拥有 other 的引用。
+- triggerEvents
+
+    经过优化，看起来是很奇怪
+
+- listenTo、 listenToOnce
+
+    `object.listenTo( other, event, callback )`
+
+    使 `object` 监听 `other` 上的事件，实际上还是 `other` 监听了事件，但 `object` 拥有 `other` 的引用
 
 ## Model
 
@@ -75,3 +79,156 @@ Backbone 使用 `get()` 和 `set()` 来实现访问控制.
     调用用户自定义的 `validate` 方法
 
     会触发 `invalid` 事件
+
+## View
+
+el 表示视图的容器
+
+功能很少, 和 model 没有绑定, 需要手动监听 `change` 来改变视图
+
+主要为局部绑定事件提供了便利
+
+- 构造函数
+
+    设置 cid
+
+    `_ensureElement()`
+
+    `initialize()`
+
+- $( selector )
+
+    `$el.find( selector )`
+
+- setElement( element )
+
+    `undelegateEvents()`
+
+    设置元素 `element`
+
+    `delegateEvents()`
+
+- render()
+
+    用于覆盖
+
+- remove()
+
+    `$el.remove()`
+
+    `stopListening()`
+
+- _ensureElement()
+
+    如果 `el` 不存在, 根据 `tagName` 属性创建一个新的元素作为容器
+
+    存在调用 `setElement()`
+
+- delegateEvents()
+
+    利用名空间来注册事件
+
+- undelegateEvents()
+
+    清除所有代理事件
+
+    `$el.off( '.delegateEvents' + this.cid )`
+
+
+## Collection
+
+model 的集合
+
+实现了 `underscore` 90% 的功能
+
+集合中 `model` 触发的事件，会同样导致 `collection` 触发
+
+- 构造函数
+
+    设置 `model`、 `comparator`( 用于排序 )
+
+    `this._reset()`
+
+    if ( models ) this.reset( models, _.extend( {silent: true}, options ) )
+
+- _reset()
+
+    `this.length = 0` 这个 `length` 应该是为了方便获取模型个数而设置在 `this` 上的.
+
+    `this.models = []` 这里保存着真正的模型
+
+    `this._byId  = {}` 使用 `id` 与模型进行关联, 用于快速获取模型对象.
+
+- add( models, options )
+
+    调用 `this.set()`， 但 `option` 包括 `{ add: true, remove: false, merge: false }`
+
+    忽略已经存在的 `model`
+
+- set( models, options )
+
+    略
+
+
+## Router
+
+- 构造函数
+
+    设置 this.routes
+
+    _bindRoutes()
+
+- _bindRoutes()
+
+    循环调用 route()
+
+- _routeToRegExp()
+
+    将 route 字符串转成 RegExp 对象
+
+- route(route, name, callback)
+
+    Backbone.history.route(route, fn) 方法
+
+    fn
+        处理 url 参数
+        调用 callback
+        触发 route:name 对应的事件
+        触发 route 事件
+        触发 history 的 route 事件
+
+
+## Sync
+
+发送 CRUD 请求
+
+Backbone.sync 函数, 依赖于 `jQuery` 或 `Zepto` 的 `ajax` 方法, 大部分是做配置操作.
+
+对于老的服务器, 设置 `X-HTTP-Method-Override` 表明使用 `POST` 来模拟服务器不支持的方法, 真正的方法通过 `_method` 传递.
+
+触发 `request` 事件
+
+
+## History
+
+处理全局 `hashchange` 或 `pushState` 事件
+
+对于低版本 ie 想使用 `hashchange`， 使用 `iframe`
+
+`interval` 默认间隔时间，检测 `url`
+
+- getHash()
+
+    Firefox 会将 `hash` 内容编码, 所以不能使用 `location.hash`
+
+- start()
+
+    History.started 为 true 会抛异常，确保该方法只执行一次
+
+    如果支持 pushState，监听该事件
+    如果向用 hashchange 并且浏览器支持，监听 hashchange
+    否则定时调用 checkUrl()，默认间隔时间 50 毫秒。
+
+- route()
+
+    向 this.handlers 插入 { route: route, callback: callback }
