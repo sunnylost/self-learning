@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        button {
+            position         : relative;
+            width            : 100px;
+            height           : 50px;
+            background-color : gray;
+            color            : #fff;
+            border           : 0;
+            cursor           : pointer;
+        }
+
+        button:focus {
+            outline : 0;
+        }
+
+        .ripple {
+            content             : '';
+            position            : absolute;
+            top                 : attr(data-top px);
+            width               : 100px;
+            height              : 100px;
+            border-radius       : 50%;
+            background-color    : rgba(255, 255, 255, .7);
+            backface-visibility : hidden;
+            opacity             : 0;
+            transform           : scale(0);
+        }
+
+        button.active .ripple {
+            animation : ripple .65s linear;
+        }
+
+        @keyframes ripple {
+            0% {
+                opacity : 1;
+            }
+
+            100% {
+                opacity   : 0;
+                transform : scale(2.5);
+            }
+        }
+    </style>
+</head>
+<body>
+<button>Click me<i class="ripple"></i></button>
+<script>
+    var buttonEl = document.querySelector( 'button' ),
+            rippleEl = buttonEl.getElementsByTagName( 'i' )[ 0 ]
+
+    buttonEl.onclick = function ( e ) {
+        buttonEl.classList.add( 'active' )
+        rippleEl.style.cssText = 'left:' + e.offsetX + 'px;top:' + e.offsetY + 'px;'
+        setTimeout( function () {
+            buttonEl.classList.remove( 'active' )
+        }, 700 )
+    }
+</script>
+</body>
+</html>
