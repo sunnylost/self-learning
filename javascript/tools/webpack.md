@@ -33,6 +33,6 @@
 
 ## Hot Module Replacement
 
-1. 首先在 `webpack.config.js` 的 `entry` 中增加 `'webpack/hot/dev-server'`, 注意, 如果全局安装了 `webpack`, 这时候会报错 `multiple main`, 需要在本地安装 `webpack`, 这句话的作用是将 `node_modules/webpack/hot/dev-server.js` 合并进 `bundle` 中.
+使用 `webpack-dev-server --hot --inline`
 
-2. 使用 `webpack-dev-server --hot --inline`
+注意, 需要在本地安装 `webpack`, `--hot` 命令会自动将 `node_modules/webpack/hot/dev-server.js` 添加进 `entry` 中.
