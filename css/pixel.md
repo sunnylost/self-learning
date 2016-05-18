@@ -15,7 +15,7 @@
 >CSS 中的像素与屏幕像素无关，它实际上是角度度量(angular measurement)，它与弧度之间的转换公式为：
 
 > radians = arctan(px / 5376) * 2
-> 
+>
 > px = 5376 * tan(radians / 2)
 
 
@@ -33,3 +33,6 @@
 * [A Pixel Identity Crisis](http://alistapart.com/article/a-pixel-identity-crisis/)
 * [Working with dppx](http://madewithdrew.com/blog/working-with-dppx/)
 * [Device pixel density tests](http://bjango.com/articles/min-device-pixel-ratio/)
+* [Subpixel rendering and image resizing](http://entropymine.com/imageworsener/subpixel/)
+* [Subpixel rendering(https://www.wikiwand.com/en/Subpixel_rendering)
+* [Subpixel: How It Works](https://www.grc.com/ctwhat.htm)
