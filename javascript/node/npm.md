@@ -47,3 +47,25 @@ semver range:
 
 
 [package.json: An Interactive Guide](http://browsenpm.org/package.json)
+
+## 命令
+
+- `npm view [package-name@version]`
+
+    查看包信息
+
+- `npm version [newversion]`
+
+    更新 npm 包的版本
+    
+- `npm publish`
+    
+    发布包
+    
+- `npm adduser` 或 `npm login`
+
+    登录, 注意, 如果设置了全局的 `registry`, 那么无论是 `login` 还是 `publish` 都会有问题, 在使用这些命令的时候需要指定官方的地址:
+    
+    ```
+    npm publish --registry=https://registry.npmjs.org/
+    ```
