@@ -5,7 +5,7 @@
 ```javascript
 function euclid(m, n) {
     if(n > m) return euclid(n, m);
-    
+
 	var r;
 
 	if(r = m % n) {
@@ -21,3 +21,12 @@ function euclid(m, n) {
 
 布尔运算：处理真假值的运算。
 
+字节: byte, 8 位的串称为字节。
+
+主存储器是以存储单元(cell) 组织起来, 每个存储单元都有一个地址。
+
+# 计算机组成
+
+## 计算机系统组成
+
+### 数字逻辑层

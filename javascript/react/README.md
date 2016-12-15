@@ -20,3 +20,6 @@
 
     ReactDOM.reander( <Component/>, dom-element )
 ```
+从父元素传递过来的数据称之为 `property`, 通过 `this.props` 访问, 子元素可以通过 `this.props.children` 访问, `property` 为不可变数据.
+
+元素上的可变数据被称为 `state`, 通过 `this.state` 访问, 调用 `this.setState()` 改变.

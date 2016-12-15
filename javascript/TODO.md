@@ -18,3 +18,7 @@
 - [EventSource](https://html.spec.whatwg.org/multipage/comms.html#server-sent-events)
 
 ## CSS
+
+- [Fonts](http://www.w3.org/TR/css-fonts-3/)
+- [Masking](https://drafts.fxtf.org/css-masking-1/)
+- [Text](http://www.w3.org/TR/css3-text/)

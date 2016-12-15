@@ -1,4 +1,4 @@
-[Dirty Tricks From The Dark  Corners Of Front-End](https://speakerdeck.com/smashingmag/dirty-tricks-from-the-dark-corners-of-front-end)
+[Dirty Tricks From The Dark Corners Of Front-End](https://speakerdeck.com/smashingmag/dirty-tricks-from-the-dark-corners-of-front-end)
 
 ### 在 `a` 标签中嵌套 `a` 标签, 做法就是用 `object` 标签包裹第二个 `a` 标签:
 
