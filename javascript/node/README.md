@@ -1,7 +1,7 @@
 # Node
 
 源码：
-- [bootstrap_node.js](node/bootstrap.md)
-- [module.js](node/module.md)
-- [timer.js](node/timer.md)
-- [buffer.js](node/buffer.md)
+- [bootstrap_node.js](bootstrap.md)
+- [module.js](module.md)
+- [timer.js](timer.md)
+- [buffer.js](buffer.md)
